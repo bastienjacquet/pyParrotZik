@@ -18,7 +18,7 @@ class ParrotZik(object):
 		if sys.platform == "darwin":
 			service_matches = lightblue.findservices( name = "Parrot RFcomm service", addr = addr )
 		else:
-			service_matches = bluetooth.find_service( uuid = uuid, address = addr )		
+			service_matches = bluetooth.find_service( name = "Parrot RFcomm service", address = addr )
 
 
 		if len(service_matches) == 0:

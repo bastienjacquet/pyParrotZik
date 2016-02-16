@@ -9,7 +9,7 @@ def ParrotZikMac(p=None):
 		if p is None:
 			p = re.compile('(?:90:03|A0:14):[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}')
 		if sys.platform == "linux2":
-			out = os.popen("bluez-test-device list").read()
+			out = os.popen("hcitool  con").read()
 			res = p.findall(out)
 			if len(res)>0:
 				return res[0]
