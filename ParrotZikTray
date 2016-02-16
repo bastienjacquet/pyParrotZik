@@ -39,6 +39,10 @@ class ParrotZikIndicator(SysIndicator):
         self.check4 = MenuItem("Concert Hall Mode",self.toggleParrotConcertHall,sensitive = False, checkitem = True)
         self.menu.append(self.check4)
 
+        self.useHeadsetIcon = True
+        self.check5 = MenuItem("Headset Icon", self.toggleIconHeadset, sensitive = True, checkitem = True)
+        self.menu.append(self.check5)
+
         self.quit = MenuItem("Quit",sys.exit,sensitive = True, checkitem = True)
         self.menu.append(self.quit)
 
@@ -124,32 +128,24 @@ class ParrotZikIndicator(SysIndicator):
             else:
                 self.parrot.setParrotConcertHall("false")
 
+    def toggleIconHeadset(self,widget):
+            self.useHeadsetIcon = not self.useHeadsetIcon
+            self.CheckBattery()
+
     def CheckBattery(self):
         if self.connected:
             print "Updating battery"
             self.batteryLevel = int(self.parrot.getBatteryLevel())
-            
+            iconLevel = int(self.batteryLevel/20)*20
+            iconName = "zik-battery-" + format(iconLevel, '03')
+            if not self.useHeadsetIcon:
+                iconName += "-headset"
             if self.parrot.BatteryCharging:
-                self.batteryLevel = "Charging"
-                self.setIcon("zik-battery-charging")
-                self.batteryLevel="Unknown"
                 self.batteryState="Charging"
-            elif self.batteryLevel>80:
-                self.setIcon("zik-battery-100")
-                self.batteryState="In Use"
-            elif self.batteryLevel>60:
-                self.setIcon("zik-battery-080")
-                self.batteryState="In Use"
-            elif self.batteryLevel>40:                
-                self.setIcon("zik-battery-060")
-                self.batteryState="In Use"
-            elif self.batteryLevel>20:
-                self.setIcon("zik-battery-040")
-                self.batteryState="In Use"
+                iconName += "-charging"
             else:
-                self.setIcon("zik-battery-low")
                 self.batteryState="In Use"
-
+            self.setIcon(iconName)
             self.info_item.set_label("Connected to: "+self.name)
             self.firmware_version.set_label("Firmware version: "+self.version)
             self.battery_state.set_label("State: "+self.batteryState)
