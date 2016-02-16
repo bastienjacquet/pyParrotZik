@@ -57,7 +57,8 @@ class ParrotZikIndicator(SysIndicator):
                 print "Lost connection"
                 self.connected = False
             else:
-                print "Connection already established"
+                pass
+                #print "Connection already established"
         else:
             mac=BluetoothPairedDevices.ParrotZikMac(self.p)
             if mac:
@@ -134,7 +135,7 @@ class ParrotZikIndicator(SysIndicator):
 
     def CheckBattery(self):
         if self.connected:
-            print "Updating battery"
+            #print "Updating battery"
             self.batteryLevel = int(self.parrot.getBatteryLevel())
             iconLevel = int(self.batteryLevel/20)*20
             iconName = "zik-battery-" + format(iconLevel, '03')
