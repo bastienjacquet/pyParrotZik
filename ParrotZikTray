@@ -55,7 +55,7 @@ class ParrotZikIndicator(SysIndicator):
             else:
                 print "Connection already established"
         else:
-            mac=BluetoothPairedDevices.ParrotZikMac()
+            mac=BluetoothPairedDevices.ParrotZikMac(self.p)
             if mac:
                 self.parrot = ParrotZik.ParrotZik(mac)
                 if not self.parrot.sock:

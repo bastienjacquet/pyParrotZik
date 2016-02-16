@@ -5,8 +5,9 @@ import re
 import os
 
 
-def ParrotZikMac():
-		p = re.compile('90:03:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}')
+def ParrotZikMac(p=None):
+		if p is None:
+			p = re.compile('90:03:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}')
 		if sys.platform == "linux2":
 			out = os.popen("bluez-test-device list").read()
 			res = p.findall(out)
