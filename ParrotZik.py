@@ -51,6 +51,7 @@ class ParrotZik(object):
 
 		self.BatteryLevel = 100
 		self.BatteryCharging = False
+		self.Version = float(self.getVersion())
 		print "Connected"
 
 	def getBatteryState(self):
@@ -60,8 +61,10 @@ class ParrotZik(object):
 	def getBatteryLevel(self):
 		data = self.sendGetMessage("/api/system/battery/get")	
 		try:
-			if data.answer.system.battery["level"] <> '':
+			if data.answer.system.battery.get("level"):
 				self.BatteryLevel = data.answer.system.battery["level"]
+			if data.answer.system.battery.get("percent"):
+				self.BatteryLevel = data.answer.system.battery["percent"]
 			if data.answer.system.battery["state"] == 'charging':
 				self.BatteryCharging = True
 			else:
@@ -78,7 +81,12 @@ class ParrotZik(object):
 
 	def getVersion(self):
 		data = self.sendGetMessage("/api/software/version/get")
-		return data.answer.software["version"]	
+		if data.answer.software.get("version"):
+			return data.answer.software["version"]
+		elif data.answer.software.get("sip6"):
+			return data.answer.software["sip6"]
+		else:
+			return -1
 
 	def getFriendlyName(self):
 		data = self.sendGetMessage("/api/bluetooth/friendlyname/get")
@@ -105,10 +113,14 @@ class ParrotZik(object):
 		return data
 
 	def getLouReedMode(self):
+		if self.Version > 2.00:
+			return 0
 		data = self.sendGetMessage("/api/audio/specific_mode/enabled/get")
 		return data.answer.audio.specific_mode["enabled"]
 
 	def setLouReedMode(self,arg):
+		if self.Version > 2.00:
+			return 0
 		data = self.sendSetMessage("/api/audio/specific_mode/enabled/set",arg)
 		return data
 

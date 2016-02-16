@@ -45,7 +45,7 @@ class ParrotZikIndicator(SysIndicator):
         SysIndicator.__init__(self,icon = "zik-audio-headset",menu = self.menu)
 
         self.connected=False
-        self.p = re.compile('90:03:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}')
+        self.p = re.compile('(?:90:03|A0:14):[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}')
 
     def EstablishConnection(self):
         if self.connected:
