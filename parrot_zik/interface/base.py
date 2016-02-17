@@ -76,19 +76,22 @@ class ParrotZikBaseInterface(object):
         except resource_manager.DeviceDisconnected:
             self.deactivate()
         else:
-            if battery_state == BatteryStates.CHARGING:
-                self.indicator.setIcon("zik-battery-charging")
-            elif battery_level > 80:
-                self.indicator.setIcon("zik-battery-100")
-            elif battery_level > 60:
-                self.indicator.setIcon("zik-battery-080")
-            elif battery_level > 40:
-                self.indicator.setIcon("zik-battery-060")
-            elif battery_level > 20:
-                self.indicator.setIcon("zik-battery-040")
-            else:
-                self.indicator.setIcon("zik-battery-low")
-
+            icon_battery_level = int(battery_level/20)*20
+            icon_name = "zik-battery-" + format(icon_battery_level, '03')
+            if True:
+                icon_name += "-headset"
+            if battery_state == 'charging':
+                icon_name += "-charging"
+            elif battery_state == 'charged':
+                icon_name += "-charging"
+            if self.parrot.version.startswith("2"):
+                from parrot_zik.model.version2 import NoiseControlTypes
+                if self.parrot.noise_control in [NoiseControlTypes.NOISE_CONTROL_ON,NoiseControlTypes.NOISE_CONTROL_MAX]:
+                    icon_name += "-nac"
+            if self.parrot.version.startswith("1"):
+                if self.parrot.cancel_noise:
+                    icon_name += "-nac"
+            self.indicator.setIcon(icon_name)
             self.battery_state.set_label(
                 "State: " + BatteryStates.representation[battery_state])
             self.battery_level.set_label(
