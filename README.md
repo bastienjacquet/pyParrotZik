@@ -16,6 +16,11 @@ Python Parrot Zik and simple unity app indicator applet.
 http://goo.gl/dXij2t
 3. Run ParrotZikTray.exe
 
+## Linux Usage
+1. Connect Parrot Zik with standard bluetooth connection
+2. Run easy_install .
+3.
+
 ## Tray Indicator Applet Usage
 
 1. Connect Parrot Zik with standard bluetooth connection 

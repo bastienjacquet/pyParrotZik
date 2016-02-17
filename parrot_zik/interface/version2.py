@@ -21,7 +21,7 @@ class ParrotZikVersion2Interface(ParrotZikBaseInterface):
         self.noise_cancelation.set_submenu(self.noise_cancelation_submenu)
 
         self.noise_control_cancelation_max = MenuItem(
-            "Max Calcelation", functools.partial(
+            "Max Cancelation", functools.partial(
                 self.toggle_noise_cancelation,
                 NoiseControlTypes.NOISE_CONTROL_MAX), checkitem=True)
         self.noise_control_cancelation_on = MenuItem(
